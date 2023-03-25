@@ -1,10 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import ParcelList from "../components/organisms/parcelList";
+
+import data from "../../assets/db/parcels_mm.json";
+import { Parcel } from "../utils/types/Parcel.type";
 
 export default function HomeScreen() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
+      <ParcelList data={data} />
       <StatusBar style="auto" />
     </View>
   );

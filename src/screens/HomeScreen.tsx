@@ -3,7 +3,6 @@ import { StyleSheet, Text, View } from "react-native";
 import ParcelList from "../components/organisms/parcelList";
 
 import data from "../../assets/db/parcels_mm.json";
-import { Parcel } from "../utils/types/Parcel.type";
 
 export default function HomeScreen() {
   return (

@@ -1,0 +1,32 @@
+[
+  {
+    "id": { "$oid": "carriex_0" },
+    "date": "05/04/2023",
+    "parcel": "641db7b2fc13",
+    "carrier": "het32gb78j6v"
+  },
+  {
+    "id": { "$oid": "carriex_1" },
+    "date": "05/04/2023",
+    "parcel": "641db7b2fc13",
+    "carrier": "het32gb78j6v"
+  },
+  {
+    "id": { "$oid": "carriex_2" },
+    "date": "05/04/2023",
+    "parcel": "641db7b2fc16",
+    "carrier": "het32gb78j6v"
+  },
+  {
+    "id": { "$oid": "carriex_3" },
+    "date": "05/04/2023",
+    "parcel": "641db7b2fc13",
+    "carrier": "het32gb78j6v"
+  },
+  {
+    "id": { "$oid": "carriex_4" },
+    "date": "05/04/2023",
+    "parcel": "641db7b2fc13",
+    "carrier": "het32gb78j6v"
+  }
+]

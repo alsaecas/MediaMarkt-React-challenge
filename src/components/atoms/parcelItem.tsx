@@ -1,23 +1,20 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { Parcel } from "../../utils/types/Parcel.type";
 
-type ItemProps = { element: Parcel };
+type ItemProps = { element: any };
 
 export default function ParcelItem({ element }: ItemProps) {
   return (
     <View style={styles.item}>
       <View style={styles.left}>
-        <Text style={styles.title}>
-          {"Parcel List " + element.deliveryDate}
-        </Text>
+        <Text style={styles.title}>{"Parcel List " + element.date}</Text>
         <Text style={styles.carriers}>
-          4 carriers will pick up the parcel today
+          {element.carriers + " carriers will pick up the parcel today"}
         </Text>
-        <Text style={styles.carriers}>14 items</Text>
+        <Text style={styles.carriers}>{element.items + " items"}</Text>
       </View>
       <View style={styles.rigth}>
-        <Text style={styles.date}>{element.pickupDate}</Text>
+        <Text style={styles.date}>{element.date}</Text>
       </View>
     </View>
   );

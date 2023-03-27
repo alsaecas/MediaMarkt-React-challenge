@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   SafeAreaView,
   View,
@@ -8,7 +8,6 @@ import {
   Text,
   TouchableOpacity,
   Modal,
-  Alert,
   Pressable,
   KeyboardAvoidingView,
   Platform,
@@ -18,10 +17,11 @@ import ParcelItem from "../atoms/parcelItem";
 import { FloatingLabelInput } from "react-native-floating-label-input";
 import DropDownPicker from "react-native-dropdown-picker";
 import carriers from "../../../assets/db/carriers_mm.json";
+import data from "../../../assets/db/carrieX_db.json";
 
-type ParcelListProps = { data: any };
+import { parseCarriexDB } from "../../utils/dbInteractions";
 
-export default function ParcelList({ data }: ParcelListProps) {
+export default function ParcelList() {
   const [modalVisible, setModalVisible] = useState(false);
   const [parcel, setParcel] = useState("");
 
@@ -32,13 +32,18 @@ export default function ParcelList({ data }: ParcelListProps) {
       return { label: carrier.id.$oid, value: carrier.id.$oid };
     })
   );
+  const [listElements, setListElements] = useState([]);
+
+  useEffect(() => {
+    setListElements(parseCarriexDB(data));
+  }, [data]);
 
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={data}
+        data={listElements}
         renderItem={({ item }) => <ParcelItem element={item} />}
-        keyExtractor={(item) => item.id.$oid}
+        keyExtractor={(item) => item.date}
         ItemSeparatorComponent={ItemDivider}
       />
       <View style={styles.footer}>

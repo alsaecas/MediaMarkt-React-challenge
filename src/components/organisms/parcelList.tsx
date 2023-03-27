@@ -10,10 +10,14 @@ import {
   Modal,
   Alert,
   Pressable,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
 } from "react-native";
 import ParcelItem from "../atoms/parcelItem";
 import { FloatingLabelInput } from "react-native-floating-label-input";
 import DropDownPicker from "react-native-dropdown-picker";
+import carriers from "../../../assets/db/carriers_mm.json";
 
 type ParcelListProps = { data: any };
 
@@ -23,10 +27,12 @@ export default function ParcelList({ data }: ParcelListProps) {
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
-  ]);
+  const [items, setItems] = useState(
+    carriers.map((carrier) => {
+      return { label: carrier.id.$oid, value: carrier.id.$oid };
+    })
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -41,16 +47,24 @@ export default function ParcelList({ data }: ParcelListProps) {
           style={[styles.button, styles.buttonPlus]}
         ></TouchableOpacity>
       </View>
-      <Modal
-        animationType="none"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.centeredView}>
+      <Modal animationType="none" transparent={true} visible={modalVisible}>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.centeredView}
+        >
+          <TouchableWithoutFeedback
+            onPress={() => setModalVisible(!modalVisible)}
+          >
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                left: 0,
+                right: 0,
+              }}
+            />
+          </TouchableWithoutFeedback>
           <View style={styles.modalView}>
             <Text style={styles.modalTitle}>
               Parcel and carrier information
@@ -90,22 +104,33 @@ export default function ParcelList({ data }: ParcelListProps) {
             <View
               style={[
                 {
-                  marginTop: 20,
+                  zIndex: 1,
+                  marginTop: 17,
+                  width: "100%",
                 },
               ]}
             >
+              {open ? null : (
+                <View
+                  style={[
+                    {
+                      marginLeft: 15,
+                      backgroundColor: "#6638f0",
+                      zIndex: 2,
+                    },
+                  ]}
+                >
+                  <Text style={styles.dropdownLabel}>Carrier ID</Text>
+                </View>
+              )}
               <View
                 style={[
                   {
-                    marginLeft: 15,
-                    backgroundColor: "#6638f0",
-                    zIndex: 1,
+                    marginTop: 8,
+                    height: 56,
                   },
                 ]}
               >
-                <Text style={styles.dropdownLabel}>Carrier ID</Text>
-              </View>
-              <View>
                 <DropDownPicker
                   open={open}
                   value={value}
@@ -113,6 +138,16 @@ export default function ParcelList({ data }: ParcelListProps) {
                   setOpen={setOpen}
                   setValue={setValue}
                   setItems={setItems}
+                  dropDownContainerStyle={{
+                    borderWidth: 2,
+                    borderColor: "#DDDDDE",
+                  }}
+                  style={{
+                    height: 56,
+                    borderWidth: 2,
+                    borderColor: "#DDDDDE",
+                    borderRadius: 6,
+                  }}
                 />
               </View>
             </View>
@@ -124,7 +159,7 @@ export default function ParcelList({ data }: ParcelListProps) {
               <Text style={styles.textStyle}>ADD</Text>
             </Pressable>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </SafeAreaView>
   );
@@ -198,6 +233,9 @@ const styles = StyleSheet.create({
   dropdownLabel: {
     position: "absolute",
     backgroundColor: "white",
+    paddingHorizontal: 5,
+    color: "rgba(58, 53, 65, 0.68)",
+    fontSize: 14,
   },
   buttonModal: {
     marginTop: 20,
@@ -212,6 +250,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   modalTitle: {
+    marginBottom: 39,
     marginTop: 29,
     textAlign: "center",
     fontWeight: "500",
